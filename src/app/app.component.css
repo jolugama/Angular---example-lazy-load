@@ -1,0 +1,10 @@
+::ng-deep .imagen img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+  max-width: 800px;
+}
+::ng-deep p{
+  text-align: center;
+}

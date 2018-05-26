@@ -1,0 +1,30 @@
+.active {
+  color: #000;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+a {
+  color: brown;
+  text-decoration: unset;
+}
+
+ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+}
+
+ul li {
+  padding: 0 8px;
+}
+
+:host {
+  text-align: center;
+}
+
+/* ul,
+h2,
+li {
+  display: inline-block;
+} */

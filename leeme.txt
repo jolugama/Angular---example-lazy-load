@@ -1,0 +1,138 @@
+Crear proyecto con Angular Cli
+ng new lazyLoad
+
+Se crean los módulos necesarios
+ng g m app-routing --flat
+ng g m config --flat
+ng g m shared --module app
+ng g m components --module app
+
+Se crea módulo para las 4 páginas
+ng g m pages/+page1/page1.routing --flat
+ng g m pages/+page2/page2.routing --flat
+ng g m pages/+page3/page3.routing --flat
+ng g m pages/+page4/page4.routing --flat
+
+Se crean las páginas de cada modulo
+ ng g c pages/+page1/page1
+ ng g c pages/+page2/page2
+ ng g c pages/+page3/page3
+ ng g c pages/+page4/page4
+
+
+
+
+configuramos app.module
+    // routes module
+    import { AppRoutingModule } from './app-routing.module';
+
+
+    // modules
+    import { ConfigModule } from './config.module';
+    import { SharedModule } from './shared/shared.module';
+
+    importamos AppRoutingModule
+    imports: [
+      BrowserModule,
+      SharedModule,
+      AppRoutingModule
+      ],
+
+    exportamos shared module
+    exports: [
+    AppComponent,
+    SharedModule
+    ]
+
+configuramos app-routing
+
+      // importamos routerModuler, necesario para enrutar
+      import { RouterModule } from '@angular/router';
+
+      // importamos módulo de config
+      import { ConfigModule } from './config.module';
+
+      Se crea un componente sin lazy lazyLoad
+      ng g c components/sinLazyLoad --module app-routing
+
+
+      creamos las rutas:
+      const routes = [
+      {
+        path: 'sinLazy',
+        component: SinLazyLoadComponent
+      },
+      {
+        path: 'pagina1',
+        loadChildren: './pages/+page1/page1.routing.module#Page1RoutingModule',
+        data : {number : '1'}
+      },
+      {
+        path: 'pagina2',
+        loadChildren: './pages/+page2/page2.routing.module#Page2RoutingModule',
+        data : {number : '2'}
+      },
+      {
+        path: 'pagina3',
+        loadChildren: './pages/+page3/page3.routing.module#Page3RoutingModule',
+        data : {number : '3'}
+      },
+      {
+        path: 'pagina4',
+        loadChildren: './pages/+page4/page4.routing.module#Page4RoutingModule',
+        data : {number : '4'}
+      },
+    { path: '**', pathMatch: 'full', redirectTo: 'sinLazy' }
+    ];
+
+
+      Importamos:
+      RouterModule.forRoot(routes),
+      ConfigModule
+
+      Exportamos:
+      RouterModule
+
+      Así debe de quedar:
+      @NgModule({
+        imports: [
+          RouterModule.forRoot(routes),
+          ConfigModule
+        ],
+        declarations: [SinLazyLoadComponent],
+        exports: [
+          RouterModule
+        ]
+      })
+
+
+
+
+
+configuración de los modulos de cada lazyLoad:
+        importamos configModule, RouterModule
+        import { ConfigModule } from '../../config.module';
+        import { RouterModule } from '@angular/router';
+        import { Page1Component } from './page1/page1.component';
+
+        creamos las rutas (se pueden añadir tantas como se quiera)
+        const page1Routes = [
+          { path: '', pathMatch: 'full', redirectTo: 'componente1'},
+          { path: 'componente1', component: Page1Component, data: {componente : 'uno'} }
+        ];
+
+        Se importa:
+        imports: [
+            CommonModule,
+            RouterModule.forChild(page1Routes),
+            ConfigModule,
+            SharedModule
+          ],
+
+Así en todas las páginas lazy load
+
+
+
+
+
+
